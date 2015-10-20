@@ -11,3 +11,4 @@
 # Include some static assets
 !/public/assets/static
 !/public/assets/scatterFiles
+.DS_Store
