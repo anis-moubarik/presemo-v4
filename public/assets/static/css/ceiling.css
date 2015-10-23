@@ -1,0 +1,19 @@
+.chart rect {
+  fill: #4aaeea;
+}
+
+.chart text {
+  fill: black;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+
+.axis text {
+  font: 10px sans-serif;
+}
+
+.axis path, .axis line {
+  fill: none;
+  strok:e #fff;
+  shape-rendering: crispEdges;
+}

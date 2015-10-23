@@ -84,9 +84,23 @@ exports.__getFrontendAssetUrlsForChannel = function(channel) {
       url: '/' + SiteConfig.SITEROUTE + '/assets/core/core-' + SiteConfig.SITELANG + '-' + channeltype + '.min.js.gz_'
     }]
   };
-  if (channel.type === 'screen') {
+  if (channel.type === 'screen' && channel.type === 'ceiling') {
     assets.css.push({
       url: 'http://fonts.googleapis.com/css?family=Open+Sans',
+      ext: true
+    });
+  }
+  if(channel.type === 'ceiling'){
+    assets.js.push({
+      url: 'https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js',
+      ext: true
+    });
+    assets.js.push({
+      url: '/' + SiteConfig.SITEROUTE + '/assets/static/js/ceiling.js',
+      ext: true
+    });
+    assets.css.push({
+      url: '/' + SiteConfig.SITEROUTE +  '/assets/static/css/ceiling.css',
       ext: true
     });
   }
