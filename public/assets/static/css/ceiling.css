@@ -8,6 +8,10 @@
   text-anchor: end;
 }
 
+.bar:hover {
+  fill: brown;
+}
+
 .axis text {
   font: 10px sans-serif;
 }
