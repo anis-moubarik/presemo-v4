@@ -132,7 +132,7 @@ function renderLogin() {
     }
   });
 
-  $usernameSend.on('click', function(ev) {
+  $('#username-form').on('submit', function(ev) {
     ev.preventDefault();
 
     // TODO move
@@ -182,7 +182,7 @@ function renderLogin() {
       rpc('core.$setUsername', usernameInput, function(err) {
         if (err) {
           if (err === 'USERNAME_ALREADY_TAKEN') {
-            alert(dict.USERNAME_ALREADY_TAKEN);
+            alert("Location is already taken.");
           } else {
             alert(err);
           }
