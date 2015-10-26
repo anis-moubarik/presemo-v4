@@ -71,61 +71,11 @@ BlockConstructorMixin.sendParticipantCount = function() {
   this.rpc('control:$setConfig', {participantCount: this.participantCount});
 };
 
-BlockConstructorMixin['$active'] = function(req, active) {
-  if (req.channel.type !== 'control') return;
-  active = !!active;
-  if (this.frontends.active !== active) {
-    this.frontends.active = active;
-    console.log( this );
-    this.saveFrontends();
-    this.rpc('$setConfig', {active: this.frontends.active});
-    console.info({
-      userId: req.user.id,
-      channelId: req.channel.id,
-      blockId: this.id,
-      active: this.frontends.active
-    }, '$active');
-  }
-};
-
-BlockConstructorMixin['$heading'] = function(req, heading) {
-  console.log("heading update!");
-  if (req.channel.type !== 'control') return;
-  if (typeof heading !== 'string') return;
-  if (this.frontends.heading !== heading) {
-    this.frontends.heading = functions.trimWhitespace(heading).substring(0, 500);
-    this.saveFrontends();
-    this.rpc('$setConfig', {heading: this.frontends.heading});
-    console.info({
-      userId: req.user.id,
-      channelId: req.channel.id,
-      blockId: this.id,
-      heading: this.frontends.heading
-    }, '$heading');
-  }
-};
-
-BlockConstructorMixin['$description'] = function(req, description) {
-  if (req.channel.type !== 'control') return;
-  if (typeof description !== 'string') return;
-  if (this.frontends.description !== description) {
-    this.frontends.description = functions.trimWhitespace(description).substring(0, 2000);
-    this.saveFrontends();
-    this.rpc('$setConfig', {description: this.frontends.description});
-    console.info({
-      userId: req.user.id,
-      channelId: req.channel.id,
-      blockId: this.id,
-      description: this.frontends.description
-    }, '$description');
-  }
-};
-
 BlockConstructorMixin['$updateFrontends'] = function( req , attribute, value ) {
   if (req.channel.type !== 'control') return;
   // if( ! attribute in this.frontends ) return;
   if (this.frontends[ attribute ] !== value ) { // don't update when not needed
-    this.frontends[ attribute ] = value;
+    this.frontends[ attribute ] = value; // TODO: check for XSS too?
     this.saveFrontends();
     var newConf = {};
     newConf[ attribute ] = value;
