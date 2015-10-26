@@ -59,6 +59,30 @@ function drawBarChart(c){
       replay(data);
     }, 1000)
   });
+
+  setInterval(function(){
+
+    var fakeData = [
+      {
+        "mood": "Confused",
+        "value": (Math.random()*100)%30
+      },
+      {
+        "mood": "Bored",
+        "value": (Math.random()*100)%30
+      },
+      {
+        "mood": "Interesting",
+        "value": (Math.random()*100)%30
+      },
+      {
+        "mood": "Funny",
+        "value": (Math.random()*100)%30
+      }
+    ];
+
+    draw(fakeData);
+  }, 5000)
 }
 
 function replay(data){
@@ -75,8 +99,8 @@ function replay(data){
 }
 
 function draw(data){
-  x.domain(data.map(function(d){ return d.mood; }));
-  y.domain([0, d3.max(data, function(d){ return d.value; })]);
+  //x.domain(data.map(function(d){ return d.mood; }));
+  //y.domain([0, d3.max(data, function(d){ return d.value; })]);
 
   svg.select('.x.axis').transition().duration(300).call(xAxis);
   svg.select('.y.axis').transition().duration(300).call(yAxis);
