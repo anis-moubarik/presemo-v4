@@ -1,3 +1,10 @@
+var rpc = require("/core/rpc");
+var socket = require("/core/socket");
+
+socket.onmessage = function(event) {
+    console.log("intercept:", event.data);
+    //rpcParse(socket, event.data, blocks);
+};
 
 //Bar chart code
 
