@@ -1,35 +1,35 @@
 <? if (__SCREEN__) { ?>
 <div id="core">
-<? } else { ?>
-<div id="core" class="container">
-<? } ?>
+  <? } else { ?>
+  <div id="core" class="container">
+    <? } ?>
 
-<? if (__WEB__ || __STAGE__ || __CONTROL__) { ?>
+    <? if (__WEB__ || __STAGE__ || __CONTROL__) { ?>
 
-  <? if ($$.USERNAMES) { ?>
+    <? if ($$.USERNAMES) { ?>
 
     <div class="row" id="username-row">
     </div>
 
     <? if ($$.NETWORKING) { ?>
-      <div class="row" id="networking-row">
-      </div>
+    <div class="row" id="networking-row">
+    </div>
     <? } ?>
 
-  <? } ?>
+    <? } ?>
 
-  <? if ($$.POINTS) { ?>
+    <? if ($$.POINTS) { ?>
     <div class="row" id="scoreboard-row">
     </div>
-  <? } ?>
+    <? } ?>
 
-  <div class="row core-page-header">
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-10">
+    <div class="row core-page-header">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-10">
 
-      <!-- Top -->
-      <? if (__CONTROL__) { ?>
+        <!-- Top -->
+        <? if (__CONTROL__) { ?>
         <div class="row core-control-banner well-sm">
 
           <div class="col-md-6">
@@ -46,13 +46,13 @@
           <div class="col-md-6">
             <div class="text-muted">
               <? if ($$.INVERTING) { ?>
-                <button id="core-invertColorsBtn" type="button" class="btn btn-default btn-xs">Invert</button><span> </span>
+              <button id="core-invertColorsBtn" type="button" class="btn btn-default btn-xs">Invert</button><span> </span>
               <? } ?>
 
               <button id="core-exportBtn" type="button" title="{!=$$.EXPORT_HOVER}" class="btn btn-default btn-xs">{!=$$.EXPORT_TITLE}</button><span> </span>
 
               <? if ($$.USERNAMES) { ?>
-                <button id="core-showUsernameInputBtn" type="button" title="{!=$$.USERNAMES_HOVER}" class="btn btn-default btn-xs">{!=$$.USERNAMES_TITLE}</button><span> </span>
+              <button id="core-showUsernameInputBtn" type="button" title="{!=$$.USERNAMES_HOVER}" class="btn btn-default btn-xs">{!=$$.USERNAMES_TITLE}</button><span> </span>
               <? } ?>
 
               <button id="core-showSiteUrlBtn" type="button" title="{!=$$.SESSION_URL_HOVER}" class="btn btn-warning btn-xs">{!=$$.SESSION_URL}</button><span> </span>
@@ -62,85 +62,85 @@
           </div>
 
         </div>
-      <? } ?>
+        <? } ?>
 
-    </div>
-    <div class="col-md-1">
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-10" id="main-content">
-      <? if ($$.FOOTER_IMAGE) { ?>
-        <img class="{=$$.FOOTER_IMAGE_CLASS}" src="/{=$$.siteRoute}/assets/{=$$.FOOTER_IMAGE}">
-      <? } ?>
-    </div>
-    <div class="col-md-1">
-    </div>
-  </div>
-
-<? } ?>
-
-<? if (__SCREEN__) { ?>
-
-  <div id="header">
-    <? if ($$.SCREEN_IMAGE) { ?>
-      <img src="/{=$$.siteRoute}/assets/{=$$.SCREEN_IMAGE}" style="float:right;margin:5px;background-color:#fff;opacity:1;">
-    <? } ?>
-    <div style="float:right;margin-right:30px;background-color:#fff;opacity:1;">
-      <span id="session-url">{=$$.displayUrl}</span>
-      <span id="socket-count"></span>
-    </div>
-  </div>
-  <div id="blockcontainer-maxi">
-    <!-- large block like poll or chat -->
-  </div>
-  <div id="blockcontainer-mini">
-    <!-- small horizontal block at bottom of screen -->
-  </div>
-  <div id="blockcontainer-sidebar">
-    <!-- small vertical block at right side of screen -->
-  </div>
-
-<? } ?>
-
-<? if (__CEILING__) { ?>
-
-  <div id="container">
-    <div class="row">
-      <div id="top-left" class="col-md-6" style="width: 50%; height:100%;">
-        <h3>Mood</h3>
-        <div class="chart"></div>
       </div>
-      <div id="top-right" class="col-md-6" style="width: 50%; height:100%;">
-        <h3>Location</h3>
-        <div id="locationContainer" class="col-md-6">
-          <div class="row">
-            <div id="topleftloc" class="col-md-3" style="display: inline-block; width: 50%; height:100%; border-bottom: dashed 1px; border-right: dashed 1px;">topleft</div>
-            <div id="toprightloc" class="col-md-3" style="display: inline-block; width: 50%; height:100%;">topright</div>
-          </div>
-          <div class="row">
-            <div id="bottomleftloc" class="col-md-3" style="display: inline-block; width: 50%; height:100%;">bottomleft</div>
-            <div id="bottomrightloc" class="col-md-3" style="display: inline-block; width: 50%; height:100%; border-top: dashed 1px; border-left: dashed 1px;">bottomright</div>
+      <div class="col-md-1">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-10" id="main-content">
+        <? if ($$.FOOTER_IMAGE) { ?>
+        <img class="{=$$.FOOTER_IMAGE_CLASS}" src="/{=$$.siteRoute}/assets/{=$$.FOOTER_IMAGE}">
+        <? } ?>
+      </div>
+      <div class="col-md-1">
+      </div>
+    </div>
+
+    <? } ?>
+
+    <? if (__SCREEN__) { ?>
+
+    <div id="header">
+      <? if ($$.SCREEN_IMAGE) { ?>
+      <img src="/{=$$.siteRoute}/assets/{=$$.SCREEN_IMAGE}" style="float:right;margin:5px;background-color:#fff;opacity:1;">
+      <? } ?>
+      <div style="float:right;margin-right:30px;background-color:#fff;opacity:1;">
+        <span id="session-url">{=$$.displayUrl}</span>
+        <span id="socket-count"></span>
+      </div>
+    </div>
+    <div id="blockcontainer-maxi">
+      <!-- large block like poll or chat -->
+    </div>
+    <div id="blockcontainer-mini">
+      <!-- small horizontal block at bottom of screen -->
+    </div>
+    <div id="blockcontainer-sidebar">
+      <!-- small vertical block at right side of screen -->
+    </div>
+
+    <? } ?>
+
+    <? if (__CEILING__) { ?>
+
+    <div id="container">
+      <div class="row">
+        <div id="top-left" class="col-md-6" style="width: 50%; height:100%;">
+          <h3>Mood</h3>
+          <div class="chart"></div>
+        </div>
+        <div id="top-right" class="col-md-6" style="width: 50%; height:100%;">
+          <h3>Seat Map / Audience reception</h3>
+          <div id="locationContainer" class="col-md-6">
+            <div class="row" id="toploc">
+              <div id="topleftloc" class="col-md-3" style="display: inline-block; width: 50%; height:100%; border-bottom: dashed 1px; border-right: dashed 1px;">topleft</div>
+              <div id="toprightloc" class="col-md-3" style="display: inline-block; width: 50%; height:100%;">topright</div>
+            </div>
+            <div class="row" id="bottomloc">
+              <div id="bottomleftloc" class="col-md-3" style="display: inline-block; width: 50%; height:100%;">bottomleft</div>
+              <div id="bottomrightloc" class="col-md-3" style="display: inline-block; width: 50%; height:100%; border-top: dashed 1px; border-left: dashed 1px;">bottomright</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div id="bottom-left" class="col-md-6" style="width: 50%; height:100%;">bottom-left</div>
-      <div id="bottom-right" class="col-md-6" style="width: 50%; height:100%;">
-        <div style="display:inline-block;">
-          <h3>Questions:</h3> <br>
+      <div class="row">
+        <div id="bottom-left" class="col-md-6" style="width: 50%; height:100%;">bottom-left</div>
+        <div id="bottom-right" class="col-md-6" style="width: 50%; height:100%;">
+          <div style="display:inline-block;">
+            <h3>Questions:</h3> <br>
             <div id="questions">
 
-              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
+    <? } ?>
+
   </div>
-
-<? } ?>
-
-</div>

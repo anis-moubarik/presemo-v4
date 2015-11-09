@@ -21,3 +21,14 @@
   strok:e #fff;
   shape-rendering: crispEdges;
 }
+
+#locationContainer {
+  text-align: center;
+  width: 100%;
+}
+
+#toploc, #bottomloc {
+  height: 190px;
+  background-color: #a0bcd8;
+  display: block;
+}
