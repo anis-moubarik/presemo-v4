@@ -84,6 +84,11 @@ function highlightSection(seat) {
   }
 }
 
+$(document).on("click", "#questions > p", function () {
+  var seat = $(this).attr("data-id");
+  highlightSection(seat);
+});
+
 //Bar chart code
 
 //check when .char div is loaded
