@@ -3,6 +3,15 @@ var socket = require("/core/socket");
 
 socket.onmessage = function(event) {
     console.log("intercept:", event.data);
+    var eventdata = JSON.parse(event.data)
+    if(eventdata.m !== undefined && eventdata.m.indexOf("$msgIn") != -1) {
+      var message = eventdata.p[0].text
+      if (isQuestion(message)) {
+        //Write the question on ceiling view
+        console.log("KYSYMYS")
+        $("#questions").append("<p>"+message+"</p>");
+      }
+    }
     //rpcParse(socket, event.data, blocks);
 };
 
@@ -139,3 +148,30 @@ function type(d){
   d.mood = +d.mood;
   return d;
 }
+
+/*
+ * We'll take really naive approach and assume every message with How, When, What, Where and/or ending with a ?-mark, is a question
+ */
+function isQuestion(message){
+  message = message.trim().toLowerCase();
+
+  var questionwords = ['how', 'when', 'what', 'where'];
+
+  if(message.slice(-1) === "?"){
+    return true;
+  }
+
+  if(message.substring(0, 2) == "is"){
+    return true;
+  }
+
+  for(qw in questionwords){
+    if(message.contains(questionwords[qw])){
+      return true;
+    }
+  }
+}
+
+
+//Add contains method to strings.
+String.prototype.contains = function(it) { return this.indexOf(it) != -1; };
