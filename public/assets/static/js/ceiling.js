@@ -239,7 +239,7 @@ function isQuestion(message){
     return true;
   }
 
-  for(qw in questionwords){
+  for(var qw in questionwords){
     if(message.contains(questionwords[qw])){
       return true;
     }
