@@ -53,8 +53,10 @@ function addQuestion(msg) {
     text: msg.text
   };
 
-  var el = $("<p>").html(question.text).attr("data-id", question.seat);
-  $("#questions").append(el);
+  $("<p>")
+    .html(question.text)
+    .attr("data-id", question.seat)
+    .prependTo("#questions");
 
   questions.push(question);
 }
