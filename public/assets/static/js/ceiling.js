@@ -2,19 +2,64 @@ var rpc = require("/core/rpc");
 var socket = require("/core/socket");
 
 socket.onmessage = function(event) {
-  //TODO: Check msgs when page is loaded and after, check onmessage event
-    console.log("intercept:", event.data);
-    var eventdata = JSON.parse(event.data)
-    if(eventdata.m !== undefined && eventdata.m.indexOf("$msgIn") != -1) {
-      var message = eventdata.p[0].text
-      if (isQuestion(message)) {
-        //Write the question on ceiling view
-        console.log("KYSYMYS")
-        $("#questions").append("<p>"+message+"</p>");
-      }
+  var eventdata = JSON.parse(event.data);
+  console.log("intercept:", event.data);
+
+  if (eventdata.m !== undefined && eventdata.m.indexOf("$msgIn") !== -1) {
+    var message = eventdata.p[0].text;
+    if (isQuestion(message)) {
+      //Write the question on ceiling view
+      console.log("KYSYMYS");
+      $("#questions").append("<p>"+message+"</p>");
     }
-    //rpcParse(socket, event.data, blocks);
+  }
+
+  if (eventdata.p[0] && eventdata.p[0].msgs) {
+    parseChatMessages(eventdata.p[0].msgs);
+  }
 };
+
+var config = {
+  adminSeat: 0,
+  numOfSeats: 8,
+  sections: 4 // FIXME: Current HTML layout supports only 4 section
+};
+
+var dom = {
+  seatmap: {
+    topleft: $("#topleftloc"),
+    topright: $("#toprightloc"),
+    bottomleft: $("bottomleftloc"),
+    bottomright: $("bottomrightloc")
+  }
+};
+
+function parseChatMessages(messages) {
+  messages.forEach(function (msg) {
+    var seat = msg.username;
+
+    if (seat && seat !== config.adminSeat) {
+      highlightSection(seat);
+    }
+  });
+}
+
+// TODO: Animate section
+function highlightSection(seat) {
+  var section = seat / config.numOfSeats;
+
+  if (section <= 0.25) {
+    console.log("section 1");
+  } else if (section > 0.25 && section <= 0.5) {
+    console.log("section 2");
+  } else if (section > 0.5 && section <= 0.75) {
+    console.log("section 3");
+  } else if (section > 0.75 && section <= 1) {
+    console.log("section 4");
+  } else {
+    return;
+  }
+}
 
 //Bar chart code
 
