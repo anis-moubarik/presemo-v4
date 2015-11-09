@@ -9,12 +9,16 @@ socket.onmessage = function(event) {
     if (isQuestion(message.text)) {
       addQuestion(message);
     }
+
   }
 
   if (eventdata.p[0] && eventdata.p[0].msgs) {
     parseChatMessages(eventdata.p[0].msgs);
   }
 };
+
+
+
 
 var config = {
   adminSeat: 0,
@@ -39,7 +43,6 @@ var questions = [];
 function parseChatMessages(messages) {
   messages.forEach(function (msg) {
     var seat = msg.username;
-
     if (seat && seat != config.adminSeat && isQuestion(msg.text)) {
       addQuestion(msg);
       highlightSection(seat);
@@ -54,7 +57,7 @@ function addQuestion(msg) {
   };
 
   var el = $("<p>").html(question.text).attr("data-id", question.seat);
-  $("#questions").append(el);
+  $("#questions").prepend(el);
 
   questions.push(question);
 }
