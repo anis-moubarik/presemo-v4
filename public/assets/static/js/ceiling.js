@@ -57,7 +57,10 @@ function addQuestion(msg) {
   };
 
   var el = $("<p>").html(question.text).attr("data-id", question.seat);
-  $("#questions").prepend(el);
+  $("<p>")
+    .html(question.text)
+    .attr("data-id", question.seat)
+    .prependTo("#questions");
 
   questions.push(question);
 }
