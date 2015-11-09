@@ -2,6 +2,7 @@ var rpc = require("/core/rpc");
 var socket = require("/core/socket");
 
 socket.onmessage = function(event) {
+  //TODO: Check msgs when page is loaded and after, check onmessage event
     console.log("intercept:", event.data);
     var eventdata = JSON.parse(event.data)
     if(eventdata.m !== undefined && eventdata.m.indexOf("$msgIn") != -1) {
@@ -150,7 +151,7 @@ function type(d){
 }
 
 /*
- * We'll take really naive approach and assume every message with How, When, What, Where and/or ending with a ?-mark, is a question
+ * We'll take really naive approach and assume every message with How, When, What, Where, ending with a ?-mark and/or starts with "is", is a question
  */
 function isQuestion(message){
   message = message.trim().toLowerCase();
