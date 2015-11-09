@@ -3,14 +3,11 @@ var socket = require("/core/socket");
 
 socket.onmessage = function(event) {
   var eventdata = JSON.parse(event.data);
-  console.log("intercept:", event.data);
 
   if (eventdata.m !== undefined && eventdata.m.indexOf("$msgIn") !== -1) {
-    var message = eventdata.p[0].text;
-    if (isQuestion(message)) {
-      //Write the question on ceiling view
-      console.log("KYSYMYS");
-      $("#questions").append("<p>"+message+"</p>");
+    var message = eventdata.p[0];
+    if (isQuestion(message.text)) {
+      addQuestion(message);
     }
   }
 
@@ -25,23 +22,41 @@ var config = {
   sections: 4 // FIXME: Current HTML layout supports only 4 section
 };
 
-var dom = {
-  seatmap: {
-    topleft: $("#topleftloc"),
-    topright: $("#toprightloc"),
-    bottomleft: $("bottomleftloc"),
-    bottomright: $("bottomrightloc")
-  }
-};
+var dom = {};
+$(document).on("ready", function () {
+  dom = {
+    seatmap: {
+      topleft: $("#topleftloc"),
+      topright: $("#toprightloc"),
+      bottomleft: $("#bottomleftloc"),
+      bottomright: $("#bottomrightloc")
+    }
+  };
+});
+
+var questions = [];
 
 function parseChatMessages(messages) {
   messages.forEach(function (msg) {
     var seat = msg.username;
 
-    if (seat && seat !== config.adminSeat) {
+    if (seat && seat != config.adminSeat && isQuestion(msg.text)) {
+      addQuestion(msg);
       highlightSection(seat);
     }
   });
+}
+
+function addQuestion(msg) {
+  var question = {
+    seat: msg.username,
+    text: msg.text
+  };
+
+  var el = $("<p>").html(question.text).attr("data-id", question.seat);
+  $("#questions").append(el);
+
+  questions.push(question);
 }
 
 // TODO: Animate section
@@ -49,15 +64,23 @@ function highlightSection(seat) {
   var section = seat / config.numOfSeats;
 
   if (section <= 0.25) {
-    console.log("section 1");
+    flash(dom.seatmap.topleft);
   } else if (section > 0.25 && section <= 0.5) {
-    console.log("section 2");
+    flash(dom.seatmap.topright);
   } else if (section > 0.5 && section <= 0.75) {
-    console.log("section 3");
+    flash(dom.seatmap.bottomleft);
   } else if (section > 0.75 && section <= 1) {
-    console.log("section 4");
+    flash(dom.seatmap.bottomright);
   } else {
     return;
+  }
+
+  function flash(section) {
+    if (!section.hasClass("flash")) {
+      section.addClass("flash").delay(1000).queue(function(){
+          $(this).removeClass("flash").dequeue();
+      });
+    }
   }
 }
 
