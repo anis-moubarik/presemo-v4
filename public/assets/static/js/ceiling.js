@@ -12,6 +12,8 @@ var sentimentdata = [
   }
 ];
 
+var parsed = false;
+
 socket.onmessage = function(event) {
   var eventdata = JSON.parse(event.data);
 
@@ -23,7 +25,7 @@ socket.onmessage = function(event) {
 
     if(message.sentiment > 0){
       sentimentdata[0].value++;
-    }else{
+    }else if(message.sentiment < 0){
       sentimentdata[1].value++;
     }
 
@@ -31,8 +33,9 @@ socket.onmessage = function(event) {
 
   }
 
-  if (eventdata.p[0] && eventdata.p[0].msgs) {
+  if (eventdata.p[0] && eventdata.p[0].msgs && !parsed) {
     parseChatMessages(eventdata.p[0].msgs);
+    parsed = true;
   }
 };
 
@@ -69,7 +72,7 @@ function parseChatMessages(messages) {
 
     if(msg.sentiment > 0){
       sentimentdata[0].value++;
-    }else{
+    }else if(msg.sentiment < 0){
       sentimentdata[1].value++;
     }
     draw(sentimentdata);
