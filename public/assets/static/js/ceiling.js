@@ -8,9 +8,10 @@ var sentimentdata = [
   },
   {
     "mood": "Negative",
-    "value":0
+    "value": 0
   }
-]
+];
+
 socket.onmessage = function(event) {
   var eventdata = JSON.parse(event.data);
 
@@ -19,6 +20,14 @@ socket.onmessage = function(event) {
     if (isQuestion(message.text)) {
       addQuestion(message);
     }
+
+    if(message.sentiment > 0){
+      sentimentdata[0].value++;
+    }else{
+      sentimentdata[1].value++;
+    }
+
+    draw(sentimentdata)
 
   }
 
@@ -63,8 +72,7 @@ function parseChatMessages(messages) {
     }else{
       sentimentdata[1].value++;
     }
-
-    replay(sentimentdata);
+    draw(sentimentdata);
 
   });
 }
@@ -165,16 +173,6 @@ function drawBarChart(c){
     .attr("dy", ".71em")
     .attr("text-anchor", "end")
     .text("Mood")
-
-  d3.json("http://localhost:3000/dev/assets/static/js/testdata.json", function(error, data){
-    x.domain(data.map(function(d){ return d.mood; }));
-    y.domain([0, d3.max(data, function(d){ return d.value; })]);
-
-    setTimeout(function(){
-      replay(data);
-    }, 1000)
-  });
-
 }
 
 function replay(data){
