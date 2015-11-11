@@ -61,3 +61,8 @@
     50% { background-color: #fbf8b2; }
     100% { background-color: none; }
 }
+
+#questions p:hover {
+  cursor: pointer;
+  cursor: hand;
+}
