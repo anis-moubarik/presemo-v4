@@ -1,18 +1,10 @@
 [
   {
-    "mood": "Confused",
-    "value": 10
-  },
-  {
-    "mood": "Bored",
+    "mood": "Positive",
     "value": 1
   },
   {
-    "mood": "Interesting",
-    "value": 3
-  },
-  {
-    "mood": "Funny",
-    "value": 30
+    "mood": "Negative",
+    "value": 1
   }
 ]

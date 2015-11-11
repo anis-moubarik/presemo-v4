@@ -1,6 +1,16 @@
 var rpc = require("/core/rpc");
 var socket = require("/core/socket");
 
+var sentimentdata = [
+  {
+    "mood": "Positive",
+    "value": 0
+  },
+  {
+    "mood": "Negative",
+    "value":0
+  }
+]
 socket.onmessage = function(event) {
   var eventdata = JSON.parse(event.data);
 
@@ -47,6 +57,15 @@ function parseChatMessages(messages) {
       addQuestion(msg);
       highlightSection(seat);
     }
+
+    if(msg.sentiment > 0){
+      sentimentdata[0].value++;
+    }else{
+      sentimentdata[1].value++;
+    }
+
+    replay(sentimentdata);
+
   });
 }
 
@@ -156,33 +175,9 @@ function drawBarChart(c){
     }, 1000)
   });
 
-  setInterval(function(){
-
-    var fakeData = [
-      {
-        "mood": "Confused",
-        "value": (Math.random()*100)%30
-      },
-      {
-        "mood": "Bored",
-        "value": (Math.random()*100)%30
-      },
-      {
-        "mood": "Interesting",
-        "value": (Math.random()*100)%30
-      },
-      {
-        "mood": "Funny",
-        "value": (Math.random()*100)%30
-      }
-    ];
-
-    draw(fakeData);
-  }, 5000)
 }
 
 function replay(data){
-  var count = 5;
   var slices = [];
   for (var i = 0; i <= data.length; i++){
     slices.push(data.slice(0, i));
@@ -195,8 +190,8 @@ function replay(data){
 }
 
 function draw(data){
-  //x.domain(data.map(function(d){ return d.mood; }));
-  //y.domain([0, d3.max(data, function(d){ return d.value; })]);
+  x.domain(data.map(function(d){ return d.mood; }));
+  y.domain([0, d3.max(data, function(d){ return d.value; })]);
 
   svg.select('.x.axis').transition().duration(300).call(xAxis);
   svg.select('.y.axis').transition().duration(300).call(yAxis);
