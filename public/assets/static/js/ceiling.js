@@ -63,7 +63,11 @@ $(document).on("ready", function () {
   var graph = new Rickshaw.Graph({
     element: document.getElementById("activity-graph"),
     renderer: 'line',
-    series: new Rickshaw.Series.FixedDuration([{ name: 'one' }], undefined, {
+    series: new Rickshaw.Series.FixedDuration([
+        { name: 'total', color: 'lightblue' },
+        { name: 'positive', color: 'green' },
+        { name: 'negative', color: 'red' },
+      ], undefined, {
       timeInterval: 250,
       maxDataPoints: 100,
       timeBase: new Date().getTime() / 1000
@@ -72,17 +76,37 @@ $(document).on("ready", function () {
 
   graph.render();
 
-  // Add some data every so often
-  var i = 0;
   var iv = setInterval(function() {
-    var data = { one: Math.floor(Math.random() * 40) + 120 };
-    var randInt = Math.floor(Math.random()*100);
-    data.two = (Math.sin(i++ / 40) + 4) * (randInt + 400);
-    data.three = randInt + 300;
+    updateGraph();
+  }, 250);
+
+  var previousPositiveValue = 0;
+  var previousNegativeValue = 0;
+
+  function updateGraph() {
+    var positiveValue = sentimentdata[0].value;
+    var negativeValue = sentimentdata[1].value;
+
+    if (previousPositiveValue !== positiveValue) {
+      positiveValue = positiveValue === 0 ? 0 : positiveValue--;
+    }
+
+    if (previousNegativeValue !== negativeValue) {
+      negativeValue = (negativeValue === 0) ? 0 : negativeValue--;
+    }
+
+    var data = {
+      total: (positiveValue + negativeValue) + 5,
+      positive: positiveValue + 1,
+      negative: negativeValue
+    };
 
     graph.series.addData(data);
     graph.render();
-  }, 250);
+
+    previousPositiveValue = positiveValue;
+    previousNegativeValue = negativeValue;
+  }
 });
 
 var questions = [];
