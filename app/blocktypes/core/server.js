@@ -96,6 +96,10 @@ exports.__getFrontendAssetUrlsForChannel = function(channel) {
       ext: true
     });
     assets.js.push({
+      url: '/' + SiteConfig.SITEROUTE + '/assets/static/js/rickshaw.js',
+      ext: true
+    });
+    assets.js.push({
       url: '/' + SiteConfig.SITEROUTE + '/assets/static/js/ceiling.js',
       ext: true
     });
