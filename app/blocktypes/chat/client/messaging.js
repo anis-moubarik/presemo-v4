@@ -28,7 +28,6 @@ var rpc = require('/core/rpc');
 
 var common = require('./commonClient.js');
 
-
 exports = module.exports = initMessaging;
 
 // TODO think whether to extend prototype properly.

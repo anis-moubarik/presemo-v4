@@ -35,6 +35,7 @@ var rpc = require('../../lib/rpc');
 var UserStore = require('../../lib/UserStore');
 var invariant = require('../../lib/utils/invariant');
 var mergeInto = require('../../lib/utils/mergeInto');
+var sentiment = require('sentiment')
 
 if (SiteConfig.CONNECT_TWITTER) {
   // Experimental Twitter integration
@@ -980,6 +981,7 @@ function Message(options) {
   this.tc = options.tc || Date.now();
   this.meta = options.meta || {};
   this.text = options.text || '';
+  this.sentiment = sentiment(options.text).score || '';
   this.username = options.username || '';
   this.q = options.q || '';
   this.admin = options.admin || false;
@@ -1013,6 +1015,7 @@ var MessageMixin = {
       tc: this.tc,
       meta: this.meta,
       text: this.text,
+      sentiment: sentiment(this.text).score,
       username: this.username,
       q: this.q,
       admin: this.admin,
@@ -1029,6 +1032,7 @@ var MessageMixin = {
       id: this.id,
       time: this.tc,
       text: this.text,
+      sentiment: sentiment(this.text).score,
       q: this.q,
       admin: this.admin ? true : undefined,
       username: this.username ? this.username : '',
