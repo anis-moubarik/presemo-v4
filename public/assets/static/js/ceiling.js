@@ -55,6 +55,31 @@ $(document).on("ready", function () {
       bottomright: $("#bottomrightloc")
     }
   };
+
+  // Activity graph
+  var graph = new Rickshaw.Graph({
+    element: document.getElementById("activity-graph"),
+    renderer: 'line',
+    series: new Rickshaw.Series.FixedDuration([{ name: 'one' }], undefined, {
+      timeInterval: 250,
+      maxDataPoints: 100,
+      timeBase: new Date().getTime() / 1000
+    })
+  });
+
+  graph.render();
+
+  // Add some data every so often
+  var i = 0;
+  var iv = setInterval(function() {
+    var data = { one: Math.floor(Math.random() * 40) + 120 };
+    var randInt = Math.floor(Math.random()*100);
+    data.two = (Math.sin(i++ / 40) + 4) * (randInt + 400);
+    data.three = randInt + 300;
+
+    graph.series.addData(data);
+    graph.render();
+  }, 250);
 });
 
 var questions = [];
