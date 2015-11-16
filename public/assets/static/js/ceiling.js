@@ -39,9 +39,6 @@ socket.onmessage = function(event) {
   }
 };
 
-
-
-
 var config = {
   adminSeat: 0,
   numOfSeats: 8,
@@ -146,26 +143,28 @@ function addQuestion(msg) {
 
 // TODO: Animate section
 function highlightSection(seat) {
+  var section = getSection(seat);
+
+  if (section.length && !section.hasClass("flash")) {
+    section.addClass("flash").delay(1000).queue(function(){
+        $(this).removeClass("flash").dequeue();
+    });
+  }
+}
+
+function getSection(seat) {
   var section = seat / config.numOfSeats;
 
   if (section <= 0.25) {
-    flash(dom.seatmap.topleft);
+    return dom.seatmap.topleft;
   } else if (section > 0.25 && section <= 0.5) {
-    flash(dom.seatmap.topright);
+    return dom.seatmap.topright;
   } else if (section > 0.5 && section <= 0.75) {
-    flash(dom.seatmap.bottomleft);
+    return dom.seatmap.bottomleft;
   } else if (section > 0.75 && section <= 1) {
-    flash(dom.seatmap.bottomright);
+    return dom.seatmap.bottomright;
   } else {
-    return;
-  }
-
-  function flash(section) {
-    if (!section.hasClass("flash")) {
-      section.addClass("flash").delay(1000).queue(function(){
-          $(this).removeClass("flash").dequeue();
-      });
-    }
+    return false;
   }
 }
 
