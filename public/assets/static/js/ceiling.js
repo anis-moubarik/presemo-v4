@@ -12,6 +12,8 @@ var sentimentdata = [
   }
 ];
 
+var seatmapdata = {};
+
 var parsed = false;
 
 socket.onmessage = function(event) {
@@ -111,6 +113,7 @@ var questions = [];
 function parseChatMessages(messages) {
   messages.forEach(function (msg) {
     var seat = msg.username;
+    var score = msg.sentiment;
     if (seat && seat != config.adminSeat && isQuestion(msg.text)) {
       addQuestion(msg);
       highlightSection(seat);
@@ -121,8 +124,9 @@ function parseChatMessages(messages) {
     }else if(msg.sentiment < 0){
       sentimentdata[1].value++;
     }
-    draw(sentimentdata);
 
+    draw(sentimentdata);
+    colorSection(seat, score);
   });
 }
 
@@ -148,6 +152,32 @@ function highlightSection(seat) {
   if (section.length && !section.hasClass("flash")) {
     section.addClass("flash").delay(1000).queue(function(){
         $(this).removeClass("flash").dequeue();
+    });
+  }
+}
+
+/* TODO: Calculate proper value for setting the color for each section. The
+ * value is calculated by counting the average score for each section:
+ * color = sum of scores from sentimental analysis per section / number of messages per section.
+ */
+function colorSection(seat, score) {
+  var section = getSection(seat);
+
+  if (section.length) {
+    if (!seatmapdata[section.selector]) {
+      seatmapdata[section.selector] = {};
+      seatmapdata[section.selector].sumOfScores = 0;
+      seatmapdata[section.selector].numOfMessages = 0;
+    }
+
+    seatmapdata[section.selector].sumOfScores += score;
+    seatmapdata[section.selector].numOfMessages++;
+
+    // calculate the avg here, we need to scale sentimental score from the original
+    // -5..5 to 0..1
+
+    section.css({
+        backgroundColor: getHSLColor(0.5)
     });
   }
 }
@@ -299,3 +329,9 @@ function isQuestion(message){
 
 //Add contains method to strings.
 String.prototype.contains = function(it) { return this.indexOf(it) != -1; };
+
+function getHSLColor(value){
+    //value from 0 to 1
+    var hue=((1-value)*120).toString(10);
+    return ["hsl(",hue,",100%,50%)"].join("");
+}
