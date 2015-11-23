@@ -156,10 +156,6 @@ function highlightSection(seat) {
   }
 }
 
-/* TODO: Calculate proper value for setting the color for each section. The
- * value is calculated by counting the average score for each section:
- * color = sum of scores from sentimental analysis per section / number of messages per section.
- */
 function colorSection(seat, score) {
   var section = getSection(seat);
 
@@ -173,13 +169,27 @@ function colorSection(seat, score) {
     seatmapdata[section.selector].sumOfScores += score;
     seatmapdata[section.selector].numOfMessages++;
 
-    // calculate the avg here, we need to scale sentimental score from the original
-    // -5..5 to 0..1
-
     section.css({
-        backgroundColor: getHSLColor(0.5)
+        backgroundColor: getHSLColor(getColorValueForSection(section))
     });
   }
+}
+
+/*
+ * Returns the value to be passed to the HSL color function. The value is
+ * an average of scores given by sentiment analysis for each message in the
+ * given section. The scale is converted from -5..5 (values given by sentiment
+ * analysis) to 0..1 to match the HSL color format.
+ *
+ * @param  {Object} section
+ * @return {Number} Value between 0..1
+ */
+function getColorValueForSection(section) {
+  var totalScore = seatmapdata[section.selector].sumOfScores;
+  var numOfMessages = seatmapdata[section.selector].numOfMessages;
+  var average = totalScore / numOfMessages;
+
+  return (average + 5) / 10;
 }
 
 function getSection(seat) {
@@ -331,7 +341,7 @@ function isQuestion(message){
 String.prototype.contains = function(it) { return this.indexOf(it) != -1; };
 
 function getHSLColor(value){
-    //value from 0 to 1
-    var hue=((1-value)*120).toString(10);
+    //value from 0 to 1 (0 is red, 0.5 is yellow, 1.0 is green)
+    var hue = (value * 120).toString(10);
     return ["hsl(",hue,",100%,50%)"].join("");
 }
