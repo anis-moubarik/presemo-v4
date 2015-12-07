@@ -113,20 +113,24 @@ var questions = [];
 function parseChatMessages(messages) {
   messages.forEach(function (msg) {
     var seat = msg.username;
-    var score = msg.sentiment;
-    if (seat && seat != config.adminSeat && isQuestion(msg.text)) {
-      addQuestion(msg);
-      highlightSection(seat);
-    }
 
-    if (msg.sentiment > 0) {
-      sentimentdata[0].value++;
-    } else if(msg.sentiment < 0) {
-      sentimentdata[1].value++;
-    }
+    if (seat != config.adminSeat) {
+      var score = msg.sentiment;
 
-    draw(sentimentdata);
-    colorSection(seat, score);
+      if (seat && seat != config.adminSeat && isQuestion(msg.text)) {
+        addQuestion(msg);
+        highlightSection(seat);
+      }
+
+      if (msg.sentiment > 0) {
+        sentimentdata[0].value++;
+      } else if(msg.sentiment < 0) {
+        sentimentdata[1].value++;
+      }
+
+      draw(sentimentdata);
+      colorSection(seat, score);
+    }
   });
 }
 
