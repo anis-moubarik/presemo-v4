@@ -1,5 +1,6 @@
 var rpc = require("/core/rpc");
 var socket = require("/core/socket");
+var moment = require("/core/moment");
 
 var sentimentdata = [
   {
@@ -140,12 +141,13 @@ function parseChatMessages(messages) {
 function addQuestion(msg) {
   var question = {
     seat: msg.username,
-    text: msg.text
+    text: msg.text,
+    timestamp: moment(msg.time).format("HH:mm")
   };
 
   var el = $("<p>").html(question.text).attr("data-id", question.seat);
   $("<p>")
-    .html(question.text)
+    .html([question.timestamp, question.text].join(" - "))
     .attr("data-id", question.seat)
     .prependTo("#questions");
 
