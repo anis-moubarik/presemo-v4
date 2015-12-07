@@ -21,18 +21,18 @@ socket.onmessage = function(event) {
 
   if (eventdata.m !== undefined && eventdata.m.indexOf("$msgIn") !== -1) {
     var message = eventdata.p[0];
+
     if (isQuestion(message.text)) {
       addQuestion(message);
     }
 
-    if(message.sentiment > 0){
+    if (message.sentiment > 0){
       sentimentdata[0].value++;
-    }else if(message.sentiment < 0){
+    } else if(message.sentiment < 0){
       sentimentdata[1].value++;
     }
 
-    draw(sentimentdata)
-
+    draw(sentimentdata);
   }
 
   if (eventdata.p[0] && eventdata.p[0].msgs && !parsed) {
@@ -119,9 +119,9 @@ function parseChatMessages(messages) {
       highlightSection(seat);
     }
 
-    if(msg.sentiment > 0){
+    if (msg.sentiment > 0) {
       sentimentdata[0].value++;
-    }else if(msg.sentiment < 0){
+    } else if(msg.sentiment < 0) {
       sentimentdata[1].value++;
     }
 
@@ -217,26 +217,23 @@ $(document).on("click", "#questions > p", function () {
 
 //check when .char div is loaded
 var chart = [];
-var interval = setInterval(function(){
+var interval = setInterval(function () {
   chart = d3.select('.chart');
-  console.log("Checking for .chart");
-  if(chart[0] != null){
+
+  if (chart[0] !== null) {
     clearInterval(interval);
     drawBarChart(chart);
   }
 }, 100);
 
 var svg, xAxis, yAxis, x, y, width, height;
-function drawBarChart(c){
-
+function drawBarChart(c) {
   var margin = {top: 20, right: 30, bottom: 30, left: 40};
   width = 500 - margin.left - margin.right;
   height = 400 - margin.top - margin.bottom;
 
-  x = d3.scale.ordinal().rangeRoundBands([0, width],.1);
+  x = d3.scale.ordinal().rangeRoundBands([0, width],0.1);
   y = d3.scale.linear().range([height, 0]);
-
-
 
   svg = c.append("svg")
     .attr("width", width+margin.left+margin.right)
@@ -263,22 +260,24 @@ function drawBarChart(c){
     .attr("y", 6)
     .attr("dy", ".71em")
     .attr("text-anchor", "end")
-    .text("Mood")
+    .text("Mood");
 }
 
-function replay(data){
+function replay(data) {
   var slices = [];
-  for (var i = 0; i <= data.length; i++){
+
+  for (var i = 0; i <= data.length; i++) {
     slices.push(data.slice(0, i));
   }
-  slices.forEach(function(slice, index){
+
+  slices.forEach(function (slice, index) {
     setTimeout(function(){
       draw(slice);
     }, index * 300);
   });
 }
 
-function draw(data){
+function draw(data) {
   x.domain(data.map(function(d){ return d.mood; }));
   y.domain([0, d3.max(data, function(d){ return d.value; })]);
 
@@ -304,11 +303,9 @@ function draw(data){
     .attr("width", x.rangeBand())
     .attr("y", function(d){ return y(d.value); })
     .attr("height", function(d){ return height - y(d.value); });
-
-
 }
 
-function type(d){
+function type(d) {
   d.mood = +d.mood;
   return d;
 }
@@ -316,31 +313,30 @@ function type(d){
 /*
  * We'll take really naive approach and assume every message with How, When, What, Where, ending with a ?-mark and/or starts with "is", is a question
  */
-function isQuestion(message){
+function isQuestion(message) {
   message = message.trim().toLowerCase();
 
   var questionwords = ['how', 'when', 'what', 'where'];
 
-  if(message.slice(-1) === "?"){
+  if (message.slice(-1) === "?") {
     return true;
   }
 
-  if(message.substring(0, 2) == "is"){
+  if (message.substring(0, 2) == "is") {
     return true;
   }
 
-  for(var qw in questionwords){
-    if(message.contains(questionwords[qw])){
+  for (var qw in questionwords) {
+    if (message.contains(questionwords[qw])) {
       return true;
     }
   }
 }
 
-
 //Add contains method to strings.
 String.prototype.contains = function(it) { return this.indexOf(it) != -1; };
 
-function getHSLColor(value){
+function getHSLColor(value) {
     //value from 0 to 1 (0 is red, 0.5 is yellow, 1.0 is green)
     var hue = (value * 120).toString(10);
     return ["hsl(",hue,",100%,50%)"].join("");
