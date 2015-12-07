@@ -9,11 +9,7 @@
     <? if ($$.html) { ?>
       <span>{!=$$.html}</span>
     <? } else  { ?>
-      <span>{=$$.text}
-        <? if ($$.username) { ?>
-          <span class="text-muted small">&nbsp;&nbsp; &ndash;&nbsp;{=$$.username}</span>
-        <? } ?>
-      </span>
+      <span>{=$$.text}</span>
     <? } ?>
 
     <div style="clear:both;"></div>
@@ -57,10 +53,6 @@
       <span class="__BLOCKTYPE__-msg-text">{!=$$.html}</span>
     <? } else  { ?>
       <span class="__BLOCKTYPE__-msg-text">{=$$.text}</span>
-    <? } ?>
-
-    <? if ($$.username) { ?>
-      <span class="text-danger small">&nbsp;&nbsp; &ndash;&nbsp;{=$$.username}</span>
     <? } ?>
 
     <? if (!__SCREEN__) { ?>
