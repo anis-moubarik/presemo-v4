@@ -29,7 +29,10 @@ socket.onmessage = function(event) {
 
     if (message.sentiment > 0){
       sentimentdata[0].value++;
-    } else if(message.sentiment < 0){
+    } else if (message.sentiment < 0) {
+      sentimentdata[1].value++;
+    } else {
+      sentimentdata[0].value++;
       sentimentdata[1].value++;
     }
 
@@ -125,7 +128,7 @@ function parseChatMessages(messages) {
 
       if (msg.sentiment > 0) {
         sentimentdata[0].value++;
-      } else if(msg.sentiment < 0) {
+      } else if (msg.sentiment < 0) {
         sentimentdata[1].value++;
       } else {
         sentimentdata[0].value++;
