@@ -29,7 +29,7 @@
 
 #toploc, #bottomloc {
   height: 190px;
-  background-color: #a0bcd8;
+  background-color: rgb(255, 255, 0);
   display: block;
 }
 
